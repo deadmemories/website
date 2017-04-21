@@ -1,0 +1,94 @@
+<?php
+
+namespace Bundle\ResponseApi;
+
+class Response
+{
+    /**
+     * @var array
+     */
+    protected $errors = [
+        'system' => [
+            'Bad request' => 3,
+        ],
+        'user' => [
+            'getUser' => [ // method
+                'Incorrect id' => 192,
+            ],
+        ],
+    ];
+
+    /**
+     * @var array
+     */
+    protected $data = [
+        'error' => false,
+    ];
+
+    /**
+     * @return Response
+     */
+    public function changeStatus(): Response
+    {
+        $this->data['error'] = true;
+
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     * @param $data
+     * @return Response
+     */
+    public function add(string $key, $data): Response
+    {
+        $this->data[$key] = $data;
+
+        return $this;
+    }
+
+    /**
+     * @param string $errorCode
+     * @return array
+     */
+    public function response(string $errorCode = ''): array
+    {
+        if (stristr($errorCode, '.')) {
+            $this->data['status'] = $this->addErrorInfoMulti($errorCode);
+        } else {
+            $this->data['status'] = $this->addErrorInfoSingle($errorCode);
+        }
+
+        return $this->data;
+    }
+
+    /**
+     * @param string $errorCode
+     * @return mixed
+     */
+    private function addErrorInfoSingle(string $errorCode)
+    {
+        return $this->errors[$errorCode];
+    }
+
+    /**
+     * @param string $errorCode
+     * @return mixed
+     */
+    private function addErrorInfoMulti(string $errorCode)
+    {
+        $errorCode = explode('.', $errorCode);
+        $key = array_shift($errorCode);
+        $value = $this->errors[$key];
+
+        if (! count($errorCode)) {
+            return $value;
+        }
+
+        foreach ( $errorCode as $k ) {
+            $value = $this->errors[$k];
+        }
+
+        return $value;
+    }
+}
