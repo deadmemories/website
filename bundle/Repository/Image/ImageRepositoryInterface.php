@@ -1,12 +1,12 @@
 <?php
 
-namespace Bundle\Entity\Image;
+namespace Bundle\Repository\Image;
 
-interface ImageEntityInterface
+interface ImageRepositoryInterface
 {
     public function update(array $data);
 
-    public function delete(string $column = 'id', ?string $data);
+    public function delete($data, string $column);
 
     public function insert(array $data);
 

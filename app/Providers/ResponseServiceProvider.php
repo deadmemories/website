@@ -2,11 +2,10 @@
 
 namespace App\Providers;
 
-use App\Eloquent\User;
-use Bundle\Entity\User\UserRepository;
+use Bundle\ResponseApi\Response;
 use Illuminate\Support\ServiceProvider;
 
-class UserServiceProvider extends ServiceProvider
+class ResponseServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -25,8 +24,8 @@ class UserServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('UserEntity', function($app) {
-            return new UserRepository(new User());
+        $this->app->bind('ResponseApi', function($app) {
+            return new Response();
         });
     }
 }

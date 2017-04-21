@@ -166,6 +166,8 @@ return [
         // Application
         \App\Providers\UserServiceProvider::class,
         \App\Providers\ImageServiceProvider::class,
+        \App\Providers\AnimeServiceProvider::class,
+        \App\Providers\ResponseServiceProvider::class,
 //        Intervention\Image\ImageServiceProvider::class,
 
         /*

@@ -1,33 +1,24 @@
 <?php
 
-namespace Bundle\Repository\User;
+namespace Bundle\Repository\Image;
 
+use App\Eloquent\Image;
 use App\Eloquent\User;
 
-class UserRepository implements UserRepositoryInterface
+class ImageRepository implements ImageRepositoryInterface
 {
     /**
-     * @var User
+     * @var Image
      */
     protected $eloquent;
 
     /**
-     * UserEntity constructor.
-     * @param User $eloquent
+     * ImageEntity constructor.
+     * @param Image $eloquent
      */
-    public function __construct(User $eloquent)
+    public function __construct(Image $eloquent)
     {
         $this->eloquent = $eloquent;
-    }
-
-    /**
-     * @param int $skip
-     * @param int $take
-     * @return mixed
-     */
-    public function getUsers(int $skip, int $take)
-    {
-        return $this->eloquent->skip($skip)->take($take)->get();
     }
 
     /**
@@ -35,7 +26,7 @@ class UserRepository implements UserRepositoryInterface
      * @param string $column
      * @return mixed
      */
-    public function getUser($data, string $column)
+    public function getImage($data, string $column)
     {
         return $this->eloquent->where($column, $data)->first();
     }
@@ -60,12 +51,21 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * @param $data
+     * @param string $data
      * @param string $column
      * @return mixed
      */
     public function delete($data, string $column)
     {
         return $this->eloquent->where($column, $data)->delete();
+    }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public function getUserImage(int $id)
+    {
+        return $this->eloquent->where('bundle', User::class)->where('entity_id', $id)->first();
     }
 }

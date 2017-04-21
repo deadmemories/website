@@ -1,8 +1,8 @@
 <?php
 
-namespace Bundle\Repository\Image;
+namespace Bundle\Model\Image;
 
-use Bundle\Entity\Image\InfoForImage;
+use Bundle\Model\Image\InfoForImage;
 use Illuminate\Support\Facades\Storage;
 
 class CloudImage

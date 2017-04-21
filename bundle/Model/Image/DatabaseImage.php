@@ -1,22 +1,21 @@
 <?php
 
-namespace Bundle\Repository\Image;
+namespace Bundle\Model\Image;
 
-use Bundle\Entity\Image\ImageEntity;
-use Bundle\Entity\Image\InfoForImage;
+use Bundle\Repository\Image\ImageRepository;
 
 class DatabaseImage
 {
     /**
-     * @var ImageEntity
+     * @var ImageRepository
      */
     protected $entity;
 
     /**
      * DatabaseImage constructor.
-     * @param ImageEntity $entity
+     * @param ImageRepository $entity
      */
-    public function __construct(ImageEntity $entity)
+    public function __construct(ImageRepository $entity)
     {
         $this->entity = $entity;
     }

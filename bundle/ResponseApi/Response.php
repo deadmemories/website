@@ -53,10 +53,12 @@ class Response
      */
     public function response(string $errorCode = ''): array
     {
-        if (stristr($errorCode, '.')) {
-            $this->data['status'] = $this->addErrorInfoMulti($errorCode);
-        } else {
-            $this->data['status'] = $this->addErrorInfoSingle($errorCode);
+        if (0 != strlen($errorCode)) {
+            if (stristr($errorCode, '.')) {
+                $this->addErrorInfoMulti($errorCode);
+            } else {
+                $this->addErrorInfoSingle($errorCode);
+            }
         }
 
         return $this->data;
@@ -64,18 +66,16 @@ class Response
 
     /**
      * @param string $errorCode
-     * @return mixed
      */
-    private function addErrorInfoSingle(string $errorCode)
+    private function addErrorInfoSingle(string $errorCode): void
     {
-        return $this->errors[$errorCode];
+        $this->data['status'] = $this->errors[$errorCode];
     }
 
     /**
      * @param string $errorCode
-     * @return mixed
      */
-    private function addErrorInfoMulti(string $errorCode)
+    private function addErrorInfoMulti(string $errorCode): void
     {
         $errorCode = explode('.', $errorCode);
         $key = array_shift($errorCode);
@@ -85,10 +85,10 @@ class Response
             return $value;
         }
 
-        foreach ( $errorCode as $k ) {
+        foreach ($errorCode as $k) {
             $value = $this->errors[$k];
         }
 
-        return $value;
+        $this->data['status'] = $value;
     }
 }

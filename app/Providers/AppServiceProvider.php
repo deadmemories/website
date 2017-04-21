@@ -2,13 +2,10 @@
 
 namespace App\Providers;
 
-use Bundle\Entity\User\UserEntity;
-use Bundle\MakeResponse\MakeArray;
-use Bundle\Repository\Image\CloudImage;
-use Bundle\Repository\Image\DatabaseImage;
+use Bundle\Model\Image\DatabaseImage;
+use Bundle\Model\User\UserModel;
+use Bundle\Repository\Image\ImageRepository;
 use Bundle\Repository\User\UserRepository;
-use Bundle\ResponseApi\Response;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -31,21 +28,16 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         // User
-        $this->app->bind('UserRepository', function($app) {
-            return new UserRepository($app->make('UserEntity'));
+        $this->app->bind(UserModel::class, function($app) {
+            return new UserModel($app->make(UserRepository::class), $app->make(ResponseServiceProvider::class));
         });
 
         // Image
-        $this->app->bind('DImage', function($app) {
-            return new DatabaseImage($app->make('ImageEntity'));
+        $this->app->bind(DatabaseImage::class, function($app) {
+            return new DatabaseImage($app->make(ImageRepository::class));
         });
         $this->app->bind('CImage', function($app) {
             return new CloudImage(new Storage());
-        });
-
-        // Response
-        $this->app->bind('ResponseApi', function($app) {
-            return new Response();
         });
 
         // MakeArray
@@ -53,8 +45,13 @@ class AppServiceProvider extends ServiceProvider
             return new MakeArray();
         });
         // Make Single
-        $this->app->bind('MakeSingle', function($app) {
-            return new MakeSingle();
+        $this->app->bind('MakeSingle', function($app, $data) {
+            return new MakeSingle($data);
+        });
+
+        // Anime
+        $this->app->bind('AnimeRepository', function($app) {
+            return new AnimeRepository($app->make('AnimeEntity'), $app->make('ResponseApi'));
         });
     }
 }

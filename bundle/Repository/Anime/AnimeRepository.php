@@ -1,10 +1,10 @@
 <?php
 
-namespace Bundle\Repository\User;
+namespace Bundle\Repository\Anime;
 
-use App\Eloquent\User;
+use App\Eloquent\Anime;
 
-class UserRepository implements UserRepositoryInterface
+class AnimeRepository implements AnimeRepositoryInterface
 {
     /**
      * @var User
@@ -13,9 +13,9 @@ class UserRepository implements UserRepositoryInterface
 
     /**
      * UserEntity constructor.
-     * @param User $eloquent
+     * @param Anime $eloquent
      */
-    public function __construct(User $eloquent)
+    public function __construct(Anime $eloquent)
     {
         $this->eloquent = $eloquent;
     }
@@ -25,7 +25,7 @@ class UserRepository implements UserRepositoryInterface
      * @param int $take
      * @return mixed
      */
-    public function getUsers(int $skip, int $take)
+    public function allAnime(int $skip, int $take)
     {
         return $this->eloquent->skip($skip)->take($take)->get();
     }
@@ -35,7 +35,7 @@ class UserRepository implements UserRepositoryInterface
      * @param string $column
      * @return mixed
      */
-    public function getUser($data, string $column)
+    public function getAnime($data, string $column)
     {
         return $this->eloquent->where($column, $data)->first();
     }
@@ -60,7 +60,7 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * @param $data
+     * @param null|string $data
      * @param string $column
      * @return mixed
      */

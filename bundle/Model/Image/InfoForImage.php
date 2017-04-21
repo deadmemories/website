@@ -1,6 +1,8 @@
 <?php
 
-namespace Bundle\Entity\Image;
+namespace Bundle\Model\Image;
+
+use App\Eloquent\Anime;
 
 final class InfoForImage
 {
@@ -10,6 +12,12 @@ final class InfoForImage
             'height' => 400,
             'path' => 'user',
             'bundle' => User::class,
+        ],
+        'anime' => [
+            'width' => 800,
+            'height' => 700,
+            'path' => 'anime',
+            'bundle' => Anime::class,
         ],
     ];
 

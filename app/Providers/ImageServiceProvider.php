@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Eloquent\Image;
-use Bundle\Entity\Image\ImageEntity;
+use Bundle\Entity\Image\ImageRepository;
 use Illuminate\Support\ServiceProvider;
 
 class ImageServiceProvider extends ServiceProvider
@@ -26,7 +26,7 @@ class ImageServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('ImageEntity', function($app) {
-            return new ImageEntity(new Image());
+            return new ImageRepository(new Image());
         });
     }
 }

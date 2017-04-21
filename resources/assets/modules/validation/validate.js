@@ -1,11 +1,11 @@
-let names = {
-    'required': 'The :attribute is required',
-}
+import rule from './rules.js';
 
 let validate = {
     data: {
         errorStatus: false,
         errors: [],
+        rule: rule,
+        lang: 'ru'
     },
     methods: {
         validate(data) {
@@ -27,16 +27,26 @@ let validate = {
                 }
             }
         },
-        required(input, value) {
+        required(field, value) {
             if (0 == value.length) {
-                let data = value.replace(/:attribute/gmi, input).
-                    replace(/:min|:max/gmi, min)
-
-                this.errors.push(data)
+                this.addError(this.rule.lang['required'], field)
             }
         },
-        min(input, value, min) {
-            console.log(min)
+        min(field, value, min) {
+            if ( min > value.length ) {
+                this.addError(this.rule.lang['min'], field, min);
+            }
+        },
+        max(field, value, max) {
+            if ( max < value.length ) {
+                this.addError(this.rule.lang['max'], field, max);
+            }
+        },
+        addError(message, field, param = null) {
+            let error = message.replace(/:attribute/gmi, field).
+                replace(/:min|:max/gmi, param)
+
+            this.errors.push(error)
         },
     },
 }

@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
-use App\Eloquent\User;
-use Bundle\Entity\User\UserRepository;
+use App\Eloquent\Anime;
+use Bundle\Entity\Anime\AnimeRepository;
 use Illuminate\Support\ServiceProvider;
 
-class UserServiceProvider extends ServiceProvider
+class AnimeServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -25,8 +25,8 @@ class UserServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('UserEntity', function($app) {
-            return new UserRepository(new User());
+        $this->app->bind('AnimeEntity', function($app) {
+            return new AnimeRepository(new Anime());
         });
     }
 }
