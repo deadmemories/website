@@ -2,8 +2,12 @@
 
 namespace Bundle\MakeResponse;
 
+use Bundle\MakeResponse\Traits\GetterForSingle;
+
 class MakeSingle
 {
+    use GetterForSingle;
+
     /**
      * @var Eloquent
      */
@@ -16,8 +20,76 @@ class MakeSingle
 
     public function __construct($data)
     {
-        $this->data = $data;
+        $this->data = $data[0];
         $this->result = new \stdClass();
+    }
+
+    /**
+     * @return MakeSingle
+     */
+    public function all(): MakeSingle
+    {
+        $this->result = $this->data->getAttributes();
+
+        return $this;
+    }
+
+    /**
+     * @param array $data
+     * @param string $key
+     * @return MakeSingle
+     * @throws \Exception
+     */
+    public function replace(array $data, string $key = ''): MakeSingle
+    {
+        if (0 == strlen($key)) {
+            $key = array_keys($data)[0];
+
+            $element = array_shift($data);
+
+            if (count($data)) {
+                throw new \Exception('If key is empty data cannot have more one element');
+            }
+
+            $this->replaceData($key, $element);
+        } else {
+            $this->replaceData($key, $data);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     * @param array $data
+     */
+    private function replaceData(string $key, array $data): void
+    {
+        if (! is_array(array_values($data)[0])) {
+            $this->replaceDataWithoutObjectSingle($key, $data);
+        } else {
+            $this->replaceDataWithObject($key, $data);
+        }
+    }
+
+    /**
+     * @param string $key
+     * @param array $data
+     */
+    private function replaceDataWithObject(string $key, array $data): void
+    {
+        foreach ($data as $k => $v) {
+            $this->result[$key][$k] = $this->getRelationship($this->data, $v[0], $v[1]);
+        }
+    }
+
+    /**
+     * @param string $key
+     * @param array $data
+     */
+    private function replaceDataWithoutObjectSingle(string $key, array $data): void
+    {
+        $this->result[$key] = $this->getRelationship($this->data, $data[0], $data[1]);
     }
 
     /**
@@ -85,7 +157,7 @@ class MakeSingle
     /**
      * @return object|\stdClass
      */
-    public function getResult()
+    public function result()
     {
         return 0 != count((array) ($this->result))
             ? $this->result

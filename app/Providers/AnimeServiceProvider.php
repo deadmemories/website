@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Eloquent\Anime;
-use Bundle\Entity\Anime\AnimeRepository;
+use Bundle\Repository\Anime\AnimeRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AnimeServiceProvider extends ServiceProvider
@@ -25,7 +25,7 @@ class AnimeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('AnimeEntity', function($app) {
+        $this->app->bind('AnimeRepository', function($app) {
             return new AnimeRepository(new Anime());
         });
     }

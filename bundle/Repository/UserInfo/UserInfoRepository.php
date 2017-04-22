@@ -1,22 +1,21 @@
 <?php
 
-namespace Bundle\Repository\Image;
+namespace Bundle\Repository\UserInfo;
 
-use App\Eloquent\Image;
-use App\Eloquent\User;
+use App\Eloquent\UserInfo;
 
-class ImageRepository implements ImageRepositoryInterface
+class UserInfoRepository
 {
     /**
-     * @var Image
+     * @var User
      */
     protected $eloquent;
 
     /**
-     * ImageEntity constructor.
-     * @param Image $eloquent
+     * UserInfoRepository constructor.
+     * @param UserInfo $eloquent
      */
-    public function __construct(Image $eloquent)
+    public function __construct(UserInfo $eloquent)
     {
         $this->eloquent = $eloquent;
     }
@@ -26,7 +25,7 @@ class ImageRepository implements ImageRepositoryInterface
      * @param string $column
      * @return mixed
      */
-    public function getImage($data, string $column)
+    public function getUser($data, string $column)
     {
         return $this->eloquent->where($column, $data)->first();
     }
@@ -51,7 +50,7 @@ class ImageRepository implements ImageRepositoryInterface
     }
 
     /**
-     * @param string $data
+     * @param $data
      * @param string $column
      * @return mixed
      */

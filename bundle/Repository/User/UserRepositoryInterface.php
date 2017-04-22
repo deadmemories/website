@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\Entity\User;
+namespace Bundle\Repository\User;
 
 interface UserRepositoryInterface
 {

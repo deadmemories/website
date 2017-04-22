@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
-use App\Eloquent\Image;
-use Bundle\Repository\Image\ImageRepository;
+use App\Eloquent\UserInfo;
+use Bundle\Repository\User\UserRepository;
+use Bundle\Repository\UserInfo\UserInfoRepository;
 use Illuminate\Support\ServiceProvider;
 
-class ImageServiceProvider extends ServiceProvider
+class UserInfoServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -25,8 +26,8 @@ class ImageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('ImageEntity', function($app) {
-            return new ImageRepository(new Image());
+        $this->app->bind('UserInfoRepository', function($app) {
+            return new UserInfoRepository(new UserInfo());
         });
     }
 }

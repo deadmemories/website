@@ -9,13 +9,13 @@ class Response
      */
     protected $errors = [
         'system' => [
-            'Bad request' => 3,
+            'validation' => 400,
         ],
-        'user' => [
-            'getUser' => [ // method
-                'Incorrect id' => 192,
-            ],
-        ],
+//        'user' => [
+//            'getUser' => [ // method
+//                'Incorrect id' => 192,
+//            ],
+//        ],
     ];
 
     /**
@@ -74,8 +74,9 @@ class Response
 
     /**
      * @param string $errorCode
+     * @return mixed
      */
-    private function addErrorInfoMulti(string $errorCode): void
+    private function addErrorInfoMulti(string $errorCode)
     {
         $errorCode = explode('.', $errorCode);
         $key = array_shift($errorCode);
@@ -86,7 +87,7 @@ class Response
         }
 
         foreach ($errorCode as $k) {
-            $value = $this->errors[$k];
+            $value = $value[$k];
         }
 
         $this->data['status'] = $value;

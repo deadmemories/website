@@ -2,6 +2,7 @@
 
 namespace Bundle\Model\Anime;
 
+use Bundle\ParseForResponse\ParseAnime;
 use Bundle\Repository\Anime\AnimeRepository;
 use Bundle\ResponseApi\Response;
 
@@ -10,7 +11,7 @@ class AnimeModel
     /**
      * @var AnimeRepository
      */
-    protected $entity;
+    protected $repository;
 
     /**
      * @var Response
@@ -19,12 +20,12 @@ class AnimeModel
 
     /**
      * AnimeRepository constructor.
-     * @param AnimeRepository $entity
+     * @param AnimeRepository $repository
      * @param Response $response
      */
-    public function __construct(AnimeRepository $entity, Response $response)
+    public function __construct(AnimeRepository $repository, Response $response)
     {
-        $this->entity = $entity;
+        $this->repository = $repository;
         $this->response = $response;
     }
 
@@ -35,7 +36,7 @@ class AnimeModel
      */
     public function allAnime(int $skip = 0, int $take = 20): \Illuminate\Http\JsonResponse
     {
-        $anime = $this->entity->allAnime($skip, $take);
+        $anime = ParseAnime::parseAllAnime($this->repository->allAnime($skip, $take));
 
         return response()->json(
             $this->response->add('response', $anime)->response(), 200
@@ -49,8 +50,19 @@ class AnimeModel
      */
     public function getAnime($data, string $column = 'id'): \Illuminate\Http\JsonResponse
     {
-        $anime = '';
-//        $make = app()->make('MakeSingle');
+        $anime = app(
+            'MakeSingle', [
+                $this->repository->getAnime($data, $column),
+            ]
+        );
+
+//        $array = [
+//            'userImage' => ['user.avatar', ['name']],
+//            'preview' => ['preview', ['name']],
+//        ];
+
+//        $a = $anime->all()->replace($array, 'images')->result();
+//        dd($a);
 
         return response()->json(
             $this->response->add('response', $anime)->response(), 200

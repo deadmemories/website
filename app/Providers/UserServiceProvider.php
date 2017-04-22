@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Eloquent\User;
-use Bundle\Entity\User\UserRepository;
+use Bundle\Repository\User\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
 class UserServiceProvider extends ServiceProvider

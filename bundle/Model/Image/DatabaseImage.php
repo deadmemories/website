@@ -6,6 +6,8 @@ use Bundle\Repository\Image\ImageRepository;
 
 class DatabaseImage
 {
+    protected const SRC = 'images/';
+
     /**
      * @var ImageRepository
      */
@@ -42,19 +44,41 @@ class DatabaseImage
     /**
      * @param array $photos
      * @param string $service
+     * @param bool $system
      * @return array
      */
-    public function save(array $photos, string $service): array
+    public function insert(array $photos, string $service, bool $system = true): array
     {
         $response = [];
         $bundle = InfoForImage::getInfo($service, 'bundle');
+        $path = InfoForImage::getInfo($service, 'path');
 
         foreach ($photos as $k => $v) {
-            $v['bundle'] = $bundle;
+            $v['imagetable_type'] = $bundle;
+            $v['name'] = $system
+                ? self::SRC.$path.'/'.$v['name']
+                : self::SRC.$v['name'];
+
             $response[] = $this->entity->insert($v);
         }
 
         return $response;
+    }
+
+    /**
+     * @param int $user
+     * @return array
+     */
+    public function insertCommon(int $user): array
+    {
+        return $this->insert(
+            [
+                'imagetable_id' => $user,
+                'name' => 'default.jpg',
+                'mimetype' => 'image/jpeg',
+            ],
+            'user', false
+        );
     }
 
     /**
