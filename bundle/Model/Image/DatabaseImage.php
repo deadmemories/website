@@ -67,9 +67,10 @@ class DatabaseImage
 
     /**
      * @param int $user
+     * @param string $service
      * @return array
      */
-    public function insertCommon(int $user): array
+    public function insertCommon(int $user, string $service): array
     {
         return $this->insert(
             [
@@ -77,7 +78,7 @@ class DatabaseImage
                 'name' => 'default.jpg',
                 'mimetype' => 'image/jpeg',
             ],
-            'user', false
+            $service, false
         );
     }
 

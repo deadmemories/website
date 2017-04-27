@@ -4,7 +4,6 @@ namespace Bundle\Model\User;
 
 use Bundle\Repository\User\UserEntity;
 use Bundle\Repository\User\UserRepository;
-use Bundle\ResponseApi\Response;
 
 class UserModel
 {
@@ -13,20 +12,14 @@ class UserModel
      */
     protected $repository;
 
-    /**
-     * @var Response
-     */
-    public $response;
 
     /**
      * UserModel constructor.
      * @param UserRepository $repository
-     * @param Response $response
      */
-    public function __construct(UserRepository $repository, Response $response)
+    public function __construct(UserRepository $repository)
     {
         $this->repository = $repository;
-        $this->response = $response;
     }
 
     /**

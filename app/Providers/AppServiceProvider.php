@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
     {
         // User
         $this->app->bind('UserModel', function($app) {
-            return new UserModel($app->make('UserRepository'), $app->make('ResponseServiceProvider'));
+            return new UserModel($app->make('UserRepository'));
         });
 
         // UserInfo
@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Anime
         $this->app->bind('AnimeModel', function($app) {
-            return new AnimeModel($app->make('AnimeRepository'), $app->make('ResponseApi'));
+            return new AnimeModel($app->make('AnimeRepository'));
         });
 
         // AuthModel

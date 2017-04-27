@@ -4,7 +4,6 @@ namespace Bundle\Model\Anime;
 
 use Bundle\ParseForResponse\ParseAnime;
 use Bundle\Repository\Anime\AnimeRepository;
-use Bundle\ResponseApi\Response;
 
 class AnimeModel
 {
@@ -14,41 +13,32 @@ class AnimeModel
     protected $repository;
 
     /**
-     * @var Response
-     */
-    protected $response;
-
-    /**
      * AnimeRepository constructor.
      * @param AnimeRepository $repository
-     * @param Response $response
      */
-    public function __construct(AnimeRepository $repository, Response $response)
+    public function __construct(AnimeRepository $repository)
     {
         $this->repository = $repository;
-        $this->response = $response;
     }
 
     /**
      * @param int $skip
      * @param int $take
-     * @return \Illuminate\Http\JsonResponse
+     * @return mixed
      */
-    public function allAnime(int $skip = 0, int $take = 20): \Illuminate\Http\JsonResponse
+    public function allAnime(int $skip = 0, int $take = 20)
     {
         $anime = ParseAnime::parseAllAnime($this->repository->allAnime($skip, $take));
 
-        return response()->json(
-            $this->response->add('response', $anime)->response(), 200
-        );
+        return $anime;
     }
 
     /**
      * @param $data
      * @param string $column
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Foundation\Application|mixed
      */
-    public function getAnime($data, string $column = 'id'): \Illuminate\Http\JsonResponse
+    public function getAnime($data, string $column = 'id')
     {
         $anime = app(
             'MakeSingle', [
@@ -64,8 +54,6 @@ class AnimeModel
 //        $a = $anime->all()->replace($array, 'images')->result();
 //        dd($a);
 
-        return response()->json(
-            $this->response->add('response', $anime)->response(), 200
-        );
+        return $anime;
     }
 }

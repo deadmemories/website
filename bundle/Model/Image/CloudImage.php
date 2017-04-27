@@ -2,7 +2,6 @@
 
 namespace Bundle\Model\Image;
 
-use Bundle\Model\Image\InfoForImage;
 use Illuminate\Support\Facades\Storage;
 
 class CloudImage
@@ -24,13 +23,14 @@ class CloudImage
     /**
      * @param array $images
      * @param string $service
-     * @return bool
+     * @return array
      */
-    public function saveImage(array $images, string $service): bool
+    public function saveImage(array $images, string $service): array
     {
         $width = InfoForImage::getInfo($service, 'width');
         $height = InfoForImage::getInfo($service, 'height');
         $path = InfoForImage::getInfo($service, 'path');
+        $response = [];
 
         foreach ($images as $k => $v) {
             $cloudImageName = strOther(
@@ -40,9 +40,12 @@ class CloudImage
             LImage::make($v->getRealPath())
                   ->resize($width, $height)
                   ->save(public_path('images/'.$path.'/'.$cloudImageName));
+
+            $response[$k]['name'] = $cloudImageName;
+            $response[$k]['mimetype'] = $v->getMimeType();
         }
 
-        return true;
+        return $response;
     }
 
     /**

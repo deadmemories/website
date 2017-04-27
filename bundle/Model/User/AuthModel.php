@@ -6,6 +6,8 @@ use Validator;
 
 class AuthModel
 {
+    protected const SERVICE = 'user';
+
     /**
      * @var UserModel
      */
@@ -22,39 +24,14 @@ class AuthModel
 
     public function auth(array $data)
     {
-        $validator = Validator::make(
-            $data, [
-                'email' => 'required',
-                'password' => 'required',
-            ]
-        );
     }
 
     public function register(array $data)
     {
-        dd(app()->make('UserInfoModel'));
-        $validator = Validator::make(
-            $data, [
-                'email' => 'required|unique:users|min:6|max:40',
-                'password' => 'required|min:4|max:30',
-                'login' => 'required|min:4|max:20',
-            ]
-        );
-
-        if ($validator->fails()) {
-            return response()->json(
-                $this->user->response
-                    ->changeStatus()
-                    ->add('error_data', $validator->messages())
-                    ->response('system.validation'),
-                400
-            );
-        }
-
         $userSave = [
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'confirm_code' => $this->generateCode()
+            'confirm_code' => $this->generateCode(),
         ];
         $user = $this->user->insert($userSave);
 
@@ -65,15 +42,16 @@ class AuthModel
             'vk' => $data['vk'],
             'twitter' => $data['twitter'],
             'facebook' => $data['facebook'],
-            'skype' => $data['facebook']
+            'skype' => $data['facebook'],
         ];
         $userInfo = $userInfo->insert($userInfoSave);
 
-        if ( $data['image'] ) {
-            //
+        $image = app()->make('DImage');
+        if ($data['image']) {
+            $data['image']['imagetable_id'] = $user->id;
+            $image->insert($data['image'], self::SERVICE);
         } else {
-            $image = app()->make('DImage');
-            $image->insertCommon($user->id);
+            $image->insertCommon($user->id, self::SERVICE);
         }
     }
 

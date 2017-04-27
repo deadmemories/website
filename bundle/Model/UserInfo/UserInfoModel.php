@@ -13,19 +13,12 @@ class UserInfoModel
     protected $repository;
 
     /**
-     * @var Response
-     */
-    public $response;
-
-    /**
      * UserInfoModel constructor.
      * @param UserInfoRepository $repository
-     * @param Response $response
      */
-    public function __construct(UserInfoRepository $repository, Response $response)
+    public function __construct(UserInfoRepository $repository)
     {
         $this->repository = $repository;
-        $this->response = $response;
     }
 
     /**
