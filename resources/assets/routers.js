@@ -1,16 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Index from '../../resources/ts/components/main.component.ts'
+import Index from './components/index.vue'
+import Register from './components/auth/register.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-    { path: '/', component: Index },
-]
+const routers = new VueRouter(
+    {
+        mode: 'history',
+        routes: [
+            {path: '/', component: Index},
+            {path: '/register', component: Register},
+        ],
+    },
+)
 
-const routers = new VueRouter({
-    routes
-})
-
-
-export default routers;
+export default routers

@@ -59,7 +59,15 @@ class TokenModel
         return $this->repository->insert($data);
     }
 
-    public function check(string $column = 'id'): bool {
 
+    /**
+     * @param string $token
+     * @param $data
+     * @param string $column
+     * @return bool
+     */
+    public function check(string $token, $data, string $column = 'id'): bool
+    {
+        return (bool) $this->getToken($data, $column) == $token;
     }
 }
