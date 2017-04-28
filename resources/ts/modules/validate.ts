@@ -28,8 +28,12 @@ export default class Validate {
         }
     }
 
-    public getErrors() {
+    public getErrors(): any[] {
         return this.errors;
+    }
+
+    public isError(): boolean {
+        return this.errors ? true : false
     }
 
     private callMethodWithManyParams(rules: string, field: string, value: any): void {

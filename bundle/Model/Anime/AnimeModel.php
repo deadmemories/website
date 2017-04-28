@@ -3,20 +3,20 @@
 namespace Bundle\Model\Anime;
 
 use Bundle\ParseForResponse\ParseAnime;
-use Bundle\Repository\Anime\AnimeRepository;
+use Bundle\Repository\Anime\AnimeRepositoryInterface;
 
 class AnimeModel
 {
     /**
-     * @var AnimeRepository
+     * @var AnimeRepositoryInterface
      */
     protected $repository;
 
     /**
-     * AnimeRepository constructor.
-     * @param AnimeRepository $repository
+     * AnimeModel constructor.
+     * @param AnimeRepositoryInterface $repository
      */
-    public function __construct(AnimeRepository $repository)
+    public function __construct(AnimeRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }

@@ -1,7 +1,7 @@
 export default class Image {
-    private static response: any = []
+    private response: any = []
 
-    public static upload(files: any, service: string): void {
+    public upload(files: any, service: string): void {
         let fd: FormData = new FormData();
         fd.append('service', service);
 
@@ -13,11 +13,11 @@ export default class Image {
             method: 'post',
             body: fd
         }).then(res => {
-            Image.response = res.json();
+            this.response = res.json();
         });
     }
 
-    public static getResponse(): any[] {
-        return Image.response
+    public getResponse(): any[] {
+        return this.response
     }
 }

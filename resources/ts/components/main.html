@@ -1,4 +1,3 @@
-const template: string = `
 <div>
     <div class="col s12 m12 l12 index-with_anime--background">
         <div class="row col s12 m12 l12 register-container">
@@ -134,7 +133,7 @@ const template: string = `
                     </div>
                 </div>
             </div>
-            <div v-if="disabledButton"
+            <div v-if="errors"
                  class="row col s12 ul-errors">
                 <ul>
                     <li v-for="item in error">
@@ -142,10 +141,7 @@ const template: string = `
                     </li>
                 </ul>
             </div>
-            <a :class="errorButton" @click.prevent="justRegister()">Зарегистрироваться</a>
+            <a class="col s12 btn" @click.prevent="justRegister()">Зарегистрироваться</a>
         </div>
     </div>
 </div>
-`
-
-export default template;

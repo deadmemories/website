@@ -10,6 +10,7 @@ use Bundle\Model\Image\DatabaseImage;
 use Bundle\Model\User\AuthModel;
 use Bundle\Model\User\UserModel;
 use Bundle\Model\UserInfo\UserInfoModel;
+use Bundle\Token\TokenModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 
@@ -58,6 +59,11 @@ class AppServiceProvider extends ServiceProvider
         // Anime
         $this->app->bind('AnimeModel', function($app) {
             return new AnimeModel($app->make('AnimeRepository'));
+        });
+
+        // Token
+        $this->app->bind('TokenModel', function($app) {
+            return new TokenModel($app->make('TokenRepository'));
         });
 
         // AuthModel

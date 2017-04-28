@@ -2,22 +2,22 @@
 
 namespace Bundle\Model\Image;
 
-use Bundle\Repository\Image\ImageRepository;
+use Bundle\Repository\Image\ImageRepositoryInterface;
 
 class DatabaseImage
 {
     protected const SRC = 'images/';
 
     /**
-     * @var ImageRepository
+     * @var ImageRepositoryInterface
      */
     protected $entity;
 
     /**
      * DatabaseImage constructor.
-     * @param ImageRepository $entity
+     * @param ImageRepositoryInterface $entity
      */
-    public function __construct(ImageRepository $entity)
+    public function __construct(ImageRepositoryInterface $entity)
     {
         $this->entity = $entity;
     }

@@ -3,21 +3,21 @@
 namespace Bundle\Model\User;
 
 use Bundle\Repository\User\UserEntity;
-use Bundle\Repository\User\UserRepository;
+use Bundle\Repository\User\UserRepositoryInterface;
 
 class UserModel
 {
     /**
-     * @var UserRepository
+     * @var UserRepositoryInterface
      */
     protected $repository;
 
 
     /**
      * UserModel constructor.
-     * @param UserRepository $repository
+     * @param UserRepositoryInterface $repository
      */
-    public function __construct(UserRepository $repository)
+    public function __construct(UserRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
