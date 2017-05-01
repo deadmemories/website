@@ -1,7 +1,7 @@
 const rules = {
     required: 'Поле :attribute является обязательным',
-    min: 'Значение :attribute не может быть меньше :min',
-    max: 'Значение :attribute не может быть больше :max',
+    min: ':attribute не может быть меньше :min',
+    max: ':attribute не может быть больше :max',
 }
 
 export default class Validate {
@@ -10,7 +10,7 @@ export default class Validate {
     }
 
     validate (data) {
-        for (let k of data) {
+        for (let k in data) {
             let value = data[k][0]
             let rules = data[k][1]
 
@@ -35,7 +35,7 @@ export default class Validate {
     }
 
     isError () {
-        return this.errors ? true : false
+        return this.errors.length ? true : false
     }
 
     callMethodWithManyParams (rules, field, value) {
@@ -69,6 +69,6 @@ export default class Validate {
         let error = message.replace(/:attribute/gmi, field).
             replace(/:min|:max/gmi, param)
 
-        this.errors.push(error)
+            this.errors.push(error)
     }
 }

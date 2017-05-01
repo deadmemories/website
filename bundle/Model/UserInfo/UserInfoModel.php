@@ -2,8 +2,7 @@
 
 namespace Bundle\Model\UserInfo;
 
-use Bundle\Repository\UserInfo\UserInfoRepository;
-use Bundle\ResponseApi\Response;
+use Bundle\Repository\UserInfo\UserInfoInterface;
 
 class UserInfoModel
 {
@@ -14,9 +13,9 @@ class UserInfoModel
 
     /**
      * UserInfoModel constructor.
-     * @param UserInfoRepository $repository
+     * @param UserInfoInterface $repository
      */
-    public function __construct(UserInfoRepository $repository)
+    public function __construct(UserInfoInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -25,9 +24,9 @@ class UserInfoModel
      * @param array $data
      * @return mixed
      */
-    public function insert(array $data)
+    public function save(array $data)
     {
-        return $this->repository->insert($data);
+        return $this->repository->save($data);
     }
 
     /**

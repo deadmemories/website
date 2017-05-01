@@ -40,7 +40,6 @@ class UserRepository implements UserRepositoryInterface
         return $this->eloquent->where($column, $data)->first();
     }
 
-
     /**
      * @param array $data
      * @return bool
@@ -54,9 +53,9 @@ class UserRepository implements UserRepositoryInterface
      * @param array $data
      * @return mixed
      */
-    public function insert(array $data)
+    public function save(array $data)
     {
-        return $this->eloquent->insert($data);
+        return $this->eloquent->create($data);
     }
 
     /**

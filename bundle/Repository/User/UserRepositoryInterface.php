@@ -12,5 +12,5 @@ interface UserRepositoryInterface
 
     public function delete($data, string $column);
 
-    public function insert(array $data);
+    public function save(array $data);
 }

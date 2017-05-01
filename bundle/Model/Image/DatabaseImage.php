@@ -3,10 +3,11 @@
 namespace Bundle\Model\Image;
 
 use Bundle\Repository\Image\ImageRepositoryInterface;
+use Bundle\Traits\ImagesHelper;
 
 class DatabaseImage
 {
-    protected const SRC = 'images/';
+    use ImagesHelper;
 
     /**
      * @var ImageRepositoryInterface
@@ -27,18 +28,9 @@ class DatabaseImage
      * @param null|string $data
      * @return mixed
      */
-    public function getImage(string $column = 'id', ?string $data)
+    public function getImage(string $column = 'id', $data)
     {
         return $this->entity->getImage($column, $data);
-    }
-
-    /**
-     * @param int $id
-     * @return mixed
-     */
-    public function getUserAvatar(int $id)
-    {
-        return $this->entity->getUserImage($id);
     }
 
     /**
@@ -47,19 +39,20 @@ class DatabaseImage
      * @param bool $system
      * @return array
      */
-    public function insert(array $photos, string $service, bool $system = true): array
+    public function insert(array $photos, string $service, bool $system = false): array
     {
         $response = [];
-        $bundle = InfoForImage::getInfo($service, 'bundle');
         $path = InfoForImage::getInfo($service, 'path');
+        $bundle = InfoForImage::getInfo($service, 'bundle');
+        $src = InfoForImage::SRC;
 
         foreach ($photos as $k => $v) {
             $v['imagetable_type'] = $bundle;
-            $v['name'] = $system
-                ? self::SRC.$path.'/'.$v['name']
-                : self::SRC.$v['name'];
+            $v['name'] = ! $system
+                ? $src.$path.'/'.$v['name']
+                : $src.$v['name'];
 
-            $response[] = $this->entity->insert($v);
+            $response[] = $this->entity->save($v);
         }
 
         return $response;
@@ -74,11 +67,13 @@ class DatabaseImage
     {
         return $this->insert(
             [
-                'imagetable_id' => $user,
-                'name' => 'default.jpg',
-                'mimetype' => 'image/jpeg',
+                'key' => [
+                    'imagetable_id' => $user,
+                    'name' => 'default.jpg',
+                    'mimetype' => 'image/jpeg',
+                ],
             ],
-            $service, false
+            $service, true
         );
     }
 
@@ -87,17 +82,29 @@ class DatabaseImage
      * @param null|string $data
      * @return mixed
      */
-    public function delete(string $column = 'id', ?string $data)
+    public function delete(string $column = 'id', $data)
     {
         return $this->entity->delete($column, $data);
     }
 
     /**
+     * @param int $id
      * @param array $data
-     * @return bool
+     * @return mixed
      */
-    public function update(array $data)
+    public function update(int $id, array $data)
     {
-        return $this->entity->update($data);
+        $eloquent = $this->getImage('id', $id);
+
+        if ( $eloquent ) {
+            foreach ( $data as $k => $v ) {
+                $eloquent->$k = $v;
+            }
+
+            $eloquent->save();
+        }
+
+        return $eloquent;
+//        return $this->entity->update($data);
     }
 }

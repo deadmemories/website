@@ -12,7 +12,6 @@ class UserModel
      */
     protected $repository;
 
-
     /**
      * UserModel constructor.
      * @param UserRepositoryInterface $repository
@@ -45,8 +44,8 @@ class UserModel
      * @param array $data
      * @return mixed
      */
-    public function insert(array $data)
+    public function save(array $data)
     {
-        return $this->repository->insert($data);
+        return $this->repository->save($data);
     }
 }

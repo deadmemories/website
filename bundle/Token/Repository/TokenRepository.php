@@ -26,7 +26,7 @@ class TokenRepository implements TokenRepositoryInterface
      * @param $data
      * @return mixed
      */
-    public function get(string $column, $data): Collection
+    public function get(string $column, $data)
     {
         return $this->eloquent->where($column, $data)->first();
     }
@@ -43,11 +43,11 @@ class TokenRepository implements TokenRepositoryInterface
 
     /**
      * @param array $data
-     * @return bool
+     * @return Token
      */
-    public function insert(array $data): bool
+    public function save(array $data): Token
     {
-        return $this->eloquent->save($data);
+        return $this->eloquent->create($data);
     }
 
     /**

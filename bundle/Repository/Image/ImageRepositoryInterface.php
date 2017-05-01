@@ -6,9 +6,9 @@ interface ImageRepositoryInterface
 {
     public function update(array $data);
 
-    public function delete($data, string $column);
+    public function delete(string $column, $data);
 
-    public function insert(array $data);
+    public function save(array $data);
 
-    public function getUserImage(int $id);
+    public function getImage(string $column, $data);
 }

@@ -2,6 +2,7 @@
 
 namespace Bundle\Token;
 
+use Bundle\Token\Eloquent\Token;
 use Bundle\Token\Repository\TokenRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -52,11 +53,11 @@ class TokenModel
 
     /**
      * @param array $data
-     * @return bool
+     * @return Token
      */
-    public function insert(array $data): bool
+    public function save(array $data): Token
     {
-        return $this->repository->insert($data);
+        return $this->repository->save($data);
     }
 
 

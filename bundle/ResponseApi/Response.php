@@ -9,13 +9,14 @@ class Response
      */
     protected $errors = [
         'system' => [
-            'validation' => 400,
+            'validation' => 426,
+            'system' => 500
         ],
-//        'user' => [
-//            'getUser' => [ // method
-//                'Incorrect id' => 192,
-//            ],
-//        ],
+        'user' => [
+            'register' => [
+                'incorrect_email' => 323
+            ]
+        ]
     ];
 
     /**

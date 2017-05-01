@@ -10,6 +10,8 @@ use Bundle\Model\Image\DatabaseImage;
 use Bundle\Model\User\AuthModel;
 use Bundle\Model\User\UserModel;
 use Bundle\Model\UserInfo\UserInfoModel;
+use Bundle\Repository\User\UserRepository;
+use Bundle\Repository\User\UserRepositoryInterface;
 use Bundle\Token\TokenModel;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
@@ -34,39 +36,33 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         // User
-        $this->app->bind('UserModel', function($app) {
-            return new UserModel($app->make('UserRepository'));
-        });
+        $this->app->bind(
+            'Bundle\Repository\User\UserRepositoryInterface',
+            'Bundle\Repository\User\UserRepository'
+        );
 
         // UserInfo
-        $this->app->bind('UserInfoModel', function($app) {
-            return new UserInfoModel($app->make('UserInfoRepository'), $app->make('ResponseApi'));
-        });
+        $this->app->bind(
+            'Bundle\Repository\UserInfo\UserInfoInterface',
+            'Bundle\Repository\UserInfo\UserInfoRepository'
+        );
 
         // Image
-        $this->app->bind('DImage', function($app) {
-            return new DatabaseImage($app->make('ImageRepository'));
-        });
-        $this->app->bind('CImage', function($app) {
-            return new CloudImage(new Storage());
-        });
-
-        // Make Single
-        $this->app->bind('MakeSingle', function($app, $data) {
-            return new MakeSingle($data);
-        });
+        $this->app->bind(
+            'Bundle\Repository\Image\ImageRepositoryInterface',
+            'Bundle\Repository\Image\ImageRepository'
+        );
 
         // Anime
-        $this->app->bind('AnimeModel', function($app) {
-            return new AnimeModel($app->make('AnimeRepository'));
-        });
+        $this->app->bind(
+            'Bundle\Repository\Anime\AnimeRepositoryInterface',
+            'Bundle\Repository\Anime\AnimeRepository'
+        );
 
         // Token
-        $this->app->bind('TokenModel', function($app) {
-            return new TokenModel($app->make('TokenRepository'));
-        });
-
-        // AuthModel
-        $this->app->bind(AuthModel::class);
+        $this->app->bind(
+            'Bundle\Token\Repository\TokenRepositoryInterface',
+            'Bundle\Token\Repository\TokenRepository'
+        );
     }
 }

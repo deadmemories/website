@@ -29,13 +29,13 @@
                         input(type='checkbox' id='register-sex' v-model='user.sex')
                         label(for='register-sex') Мужчина/женщина
                     div.file-field.input-field.col.s12#register-image
-                        div(v-if='0 == image.length' class='btn')
+                        div(v-if='!image.name' class='btn')
                             span Аватарка
                                 input(type='file', @change='uploadImage')
-                        div(v-if='0 == image.length' class='file-path-wrapper')
+                        div(v-if='!image.name' class='file-path-wrapper')
                             input(type='text', class='file-path')
-                        div(v-else-if='0 < image.length' class='imageUploaded')
-                            img(v-for='item in image', :src='item.name')
+                        div(v-else-if='image.name' class='imageUploaded')
+                            img(:src='image.name')
                             div.panel-image
                                 a(class='waves-effect waves-light btn col s12', @click='removeImage()') Удалить
                     div.input-field.col.s12.social-icons
@@ -63,16 +63,16 @@
                         div.input-field.col.s12#register-input_div--register-skype
                             input(type='text', id='register-input_skype', v-model='user.registerSkype')
                             label(for='register-input_skype') Ваш скайп
-                div(v-if='disabledButton', class='row col s12 ul-errors')
+                div(v-if='0 != error.length', class='row col s12 ul-errors')
                     ul
-                        li(v-for='item in error') {{ item.min }} {{ item.max }} {{ item.required }}
-                        li {{ error.passwordError }}
+                        li(v-for='item in error') {{ item }}
                 a(href='#' @click.prevent='justRegister()').col.s12.btn Зарегистрироваться
 </template>
 
 <script>
     import Vue from 'vue';
-    import validate from '../../modules/validate'
+    import Validate from '../../modules/validate'
+    import Image from '../../modules/image'
     import axios from 'axios';
 
     Vue.component('social-icon', {
@@ -100,6 +100,7 @@
                 },
                 errorPasswordRepeat: false,
                 justWait: false,
+                error: [],
                 socialIcons: {
                     registerVk: false,
                     registerSkype: false,
@@ -117,22 +118,35 @@
                 }
             },
             justRegister() {
-                let validate = new validate()
+                let validate = new Validate
+                const rules = {
+                    login: [this.user.login, 'required|min:5|max:15'],
+                    password: [this.user.password, 'required|min:4|max:25'],
+                    email: [this.user.email, 'required|min:5|max:30'],
+                }
                 validate.validate(rules)
 
                 if ( validate.isError() ) {
-                    console.log(validate.getErrors())
+                    this.error = validate.getErrors()
+                    alertify.notify('Validation error', 'error', 3)
                     return false;
                 } else {
-                    fetch('/register', {
-                        method: 'post',
-                        data: {
-                            user: this.user,
-                            image: this.image
-                        }
+                    axios.post('/api/v1/register', {
+                        user: this.user,
+                        image: this.image
                     }).then(res => console.log(res))
-                    .catch(err => console.log(err))
+                      .catch(err => console.log(err))
                 }
+            },
+            uploadImage(e) {
+                let image = new Image
+                image.upload(e.target.files, 'user')
+                setTimeout(() => {
+                    this.image = image.getResponse()[0]
+                }, 2000)
+            },
+            removeImage() {
+                this.image = []
             },
             socialInput(iconName) {
                 if (!this.socialIcons.iconName) {

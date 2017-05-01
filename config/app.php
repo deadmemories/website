@@ -163,15 +163,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-        // Application
-        \App\Providers\UserServiceProvider::class,
-        \App\Providers\ImageServiceProvider::class,
-        \App\Providers\AnimeServiceProvider::class,
-        \App\Providers\ResponseServiceProvider::class,
-        \App\Providers\UserInfoServiceProvider::class,
-        \App\Providers\TokenServiceProvider::class,
-//        Intervention\Image\ImageServiceProvider::class,
-
         /*
          * Package Service Providers...
          */
@@ -185,6 +176,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        // Application
+        Intervention\Image\ImageServiceProvider::class,
 
     ],
 
@@ -234,7 +228,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-//        'LImage' => Intervention\Image\Facades\Image::class,
+        'LImage' => Intervention\Image\Facades\Image::class,
     ],
 
 ];

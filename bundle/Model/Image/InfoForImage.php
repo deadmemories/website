@@ -3,9 +3,12 @@
 namespace Bundle\Model\Image;
 
 use App\Eloquent\Anime;
+use App\Eloquent\User;
 
 final class InfoForImage
 {
+    public const SRC = 'images/';
+
     protected static $infoImage = [
         'user' => [
             'width' => 500,

@@ -8,6 +8,8 @@ class Image extends Model
 {
     protected $table = 'images';
 
+    protected $fillable = ['name', 'imagetable_type', 'imagetable_id', 'mimetype'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */

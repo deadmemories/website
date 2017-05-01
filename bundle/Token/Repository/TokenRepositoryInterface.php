@@ -2,15 +2,15 @@
 
 namespace Bundle\Token\Repository;
 
-use Illuminate\Database\Eloquent\Collection;
+use Bundle\Token\Eloquent\Token;
 
 interface TokenRepositoryInterface
 {
-    public function get(string $column, $data): Collection;
+    public function get(string $column, $data);
 
     public function remove(string $column, $data): bool;
 
-    public function update(array $data): Collection;
+    public function update(array $data);
 
-    public function insert(array $data): bool;
+    public function save(array $data): Token;
 }

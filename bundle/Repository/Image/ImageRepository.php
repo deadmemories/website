@@ -22,11 +22,11 @@ class ImageRepository implements ImageRepositoryInterface
     }
 
     /**
-     * @param $data
      * @param string $column
+     * @param $data
      * @return mixed
      */
-    public function getImage($data, string $column)
+    public function getImage(string $column, $data)
     {
         return $this->eloquent->where($column, $data)->first();
     }
@@ -45,17 +45,17 @@ class ImageRepository implements ImageRepositoryInterface
      * @param array $data
      * @return mixed
      */
-    public function insert(array $data)
+    public function save(array $data)
     {
-        return $this->eloquent->insert($data);
+        return $this->eloquent->create($data);
     }
 
     /**
-     * @param string $data
      * @param string $column
+     * @param $data
      * @return mixed
      */
-    public function delete($data, string $column)
+    public function delete(string $column, $data)
     {
         return $this->eloquent->where($column, $data)->delete();
     }

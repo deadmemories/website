@@ -4,7 +4,7 @@ namespace Bundle\Repository\UserInfo;
 
 use App\Eloquent\UserInfo;
 
-class UserInfoRepository
+class UserInfoRepository implements UserInfoInterface
 {
     /**
      * @var User
@@ -44,9 +44,9 @@ class UserInfoRepository
      * @param array $data
      * @return mixed
      */
-    public function insert(array $data)
+    public function save(array $data)
     {
-        return $this->eloquent->insert($data);
+        return $this->eloquent->create($data);
     }
 
     /**

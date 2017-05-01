@@ -1,3 +1,7 @@
 <?php
 
-Route::get('/auth/login', 'Auth\AuthApi@register');
+Route::post('/register', 'Auth\AuthApi@register');
+Route::post('/login', 'Auth\AuthApi@login');
+
+// Image
+Route::post('/image/save', 'Image\ImageApi@save');

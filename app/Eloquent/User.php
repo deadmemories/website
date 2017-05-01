@@ -8,6 +8,8 @@ class User extends Model
 {
     protected $table = 'users';
 
+    protected $fillable = ['email', 'password', 'confirm_code'];
+
     /**
      * @return mixed
      */

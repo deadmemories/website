@@ -8,7 +8,7 @@ interface UserInfoInterface
 
     public function update(array $data);
 
-    public function insert(array $data);
+    public function save(array $data);
 
     public function delete($data, string $column);
 }
