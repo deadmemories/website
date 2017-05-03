@@ -14,7 +14,15 @@
 </head>
 <body>
     <div id="app">
-         <router-view></router-view>
+        <header class="col s12 m12 l12">
+            <header-component></header-component>
+        </header>
+
+        <router-view></router-view>
+
+        <footer class="page-footer">
+            <footer-component></footer-component>
+        </footer>
     </div>
 
     <script src="//cdn.jsdelivr.net/alertifyjs/1.9.0/alertify.min.js"></script>

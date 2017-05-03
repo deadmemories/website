@@ -6,14 +6,14 @@
         $('.modal').modal();
 
         $('.dropdown-button').dropdown({
-                    inDuration: 300,
-                    outDuration: 225,
-                    constrain_width: false, // Does not change width of dropdown to that of the activator
-                    hover: false, // Activate on hover
-                    gutter: 100, // Spacing from edge
-                    belowOrigin: false, // Displays dropdown below the button
-                    alignment: 'right' // Displays dropdown with edge aligned to the left of button
-                }
+                inDuration: 300,
+                outDuration: 225,
+                constrain_width: false, // Does not change width of dropdown to that of the activator
+                hover: false, // Activate on hover
+                gutter: 100, // Spacing from edge
+                belowOrigin: false, // Displays dropdown below the button
+                alignment: 'right' // Displays dropdown with edge aligned to the left of button
+            }
         );
 
         // $(document).scroll(function() {

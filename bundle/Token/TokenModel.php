@@ -4,10 +4,13 @@ namespace Bundle\Token;
 
 use Bundle\Token\Eloquent\Token;
 use Bundle\Token\Repository\TokenRepositoryInterface;
+use Bundle\Traits\GenerateHelper;
 use Illuminate\Database\Eloquent\Collection;
 
 class TokenModel
 {
+    use GenerateHelper;
+
     /**
      * @var TokenRepositoryInterface
      */
@@ -43,12 +46,25 @@ class TokenModel
     }
 
     /**
+     * @param int $id
      * @param array $data
-     * @return bool
+     * @return bool|Collection
      */
-    public function update(array $data): bool
+    public function update(int $id, array $data)
     {
-        return $this->repository->update($data);
+        $eloquent = $this->getRow($id);
+
+        if ( $eloquent ) {
+            foreach ( $data as $k => $v ) {
+                $eloquent->$k = $v;
+            }
+
+            $eloquent->save();
+
+            return $eloquent;
+        }
+
+        return false;
     }
 
     /**

@@ -13,8 +13,13 @@ class Response
             'system' => 500
         ],
         'user' => [
+            'not_confrimed' => 105,
             'register' => [
-                'incorrect_email' => 323
+                'incorrect_email' => 323,
+            ],
+            'auth' => [
+                'already_logged' => 310,
+                'incorrect_password' => 307
             ]
         ]
     ];

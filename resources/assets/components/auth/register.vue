@@ -29,13 +29,13 @@
                         input(type='checkbox' id='register-sex' v-model='user.sex')
                         label(for='register-sex') Мужчина/женщина
                     div.file-field.input-field.col.s12#register-image
-                        div(v-if='!image.name' class='btn')
+                        div(v-if='!image[0].name' class='btn')
                             span Аватарка
                                 input(type='file', @change='uploadImage')
-                        div(v-if='!image.name' class='file-path-wrapper')
+                        div(v-if='!image[0].name' class='file-path-wrapper')
                             input(type='text', class='file-path')
-                        div(v-else-if='image.name' class='imageUploaded')
-                            img(:src='image.name')
+                        div(v-else-if='image[0].name' class='imageUploaded')
+                            img(:src='image[0].name')
                             div.panel-image
                                 a(class='waves-effect waves-light btn col s12', @click='removeImage()') Удалить
                     div.input-field.col.s12.social-icons
@@ -70,10 +70,11 @@
 </template>
 
 <script>
-    import Vue from 'vue';
+    import Vue from 'vue'
     import Validate from '../../modules/validate'
     import Image from '../../modules/image'
-    import axios from 'axios';
+    import axios from 'axios'
+    import config from '../../config'
 
     Vue.component('social-icon', {
         template: `
@@ -131,7 +132,7 @@
                     alertify.notify('Validation error', 'error', 3)
                     return false;
                 } else {
-                    axios.post('/api/v1/register', {
+                    axios.post(config.url + 'register', {
                         user: this.user,
                         image: this.image
                     }).then(res => console.log(res))
@@ -140,10 +141,7 @@
             },
             uploadImage(e) {
                 let image = new Image
-                image.upload(e.target.files, 'user')
-                setTimeout(() => {
-                    this.image = image.getResponse()[0]
-                }, 2000)
+                image.upload(e.target.files, 'user', this)
             },
             removeImage() {
                 this.image = []

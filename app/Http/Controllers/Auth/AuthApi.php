@@ -34,7 +34,7 @@ class AuthApi
      * @param Request $request
      * @return bool|\Illuminate\Http\JsonResponse
      */
-    public function register(Request $request)
+    public function register(Request $request): \Illuminate\Http\JsonResponse
     {
         $userData = $request->user;
 
@@ -75,7 +75,7 @@ class AuthApi
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse|void
      */
-    public function auth(Request $request)
+    public function auth(Request $request): \Illuminate\Http\JsonResponse
     {
         $validator = Validator::make(
             $request->all(), [

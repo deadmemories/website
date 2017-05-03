@@ -96,15 +96,16 @@ class DatabaseImage
     {
         $eloquent = $this->getImage('id', $id);
 
-        if ( $eloquent ) {
-            foreach ( $data as $k => $v ) {
+        if ($eloquent) {
+            foreach ($data as $k => $v) {
                 $eloquent->$k = $v;
             }
 
             $eloquent->save();
+
+            return $eloquent;
         }
 
-        return $eloquent;
-//        return $this->entity->update($data);
+        return false;
     }
 }

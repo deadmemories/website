@@ -30,9 +30,15 @@ class AuthModel
         $this->user = $user;
     }
 
+    /**
+     * @param array $data
+     * @return array|string
+     */
     public function auth(array $data)
     {
         $user = $this->user->getUser($data['email'], 'email');
+        $tokenModel = app()->make(TokenModel::class);
+        $userToken = $tokenModel->getToken($user->id, 'entity_id');
 
         if (! $user) {
             return [
@@ -41,6 +47,36 @@ class AuthModel
                 'error_code' => 406,
             ];
         }
+
+        if (0 == $user->confirmed) {
+            return [
+                'error_message' => 'Confirm email',
+                'error_response' => 'user.not_confrimed',
+                'error_code' => 406,
+            ];
+        }
+
+        if (0 != strlen($userToken)) {
+            return [
+                'error_message' => 'You are already logged',
+                'error_response' => 'user.auth.already_logged',
+                'error_code' => 406,
+            ];
+        }
+
+        if (! password_verify($data['password'], $user->password)) {
+            return [
+                'error_message' => 'Incorrect password',
+                'error_response' => 'user.auth.incorrect_password',
+                'error_code' => 406,
+            ];
+        }
+
+        $tokenModel->update([
+            'token' => $tokenModel->generateCode()
+        ]);
+
+        return $tokenModel->getToken($tokenModel->token);
     }
 
     /**
@@ -77,18 +113,20 @@ class AuthModel
 
         $image = app()->make(DatabaseImage::class);
         if (count($avatar)) {
-            $path = InfoForImage::getInfo('user', 'path');
+            $path = InfoForImage::getInfo(self::SERVICE, 'path');
             $cloud = app()->make(CloudImage::class);
 
             $imageType = explode('/', $avatar['mimetype'])[1];
             $newName = $image->generateName($userInfo->login, $user->id, '', $path);
             $newNameDir = $userInfo->login.$user->id.'.'.$imageType;
 
-            $image->update($avatar['id'], [
+            $image->update(
+                $avatar['id'], [
                 'name' => $newName.'.'.$imageType,
                 'imagetable_id' => $user->id,
-                'status' => 1
-            ]);
+                'status' => 1,
+            ]
+            );
 
             $cloud->renameImage($avatar['name'], $newNameDir, $path);
         } else {

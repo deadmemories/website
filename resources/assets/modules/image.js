@@ -1,13 +1,12 @@
 import axios from 'axios'
-
-const URL = '/api/v1/image/'
+import config from '../../config'
 
 export default class Image {
     constructor () {
         this.response = []
     }
 
-    upload (files, service) {
+    upload (files, service, object) {
         let fd = new FormData()
         fd.append('service', service)
 
@@ -15,14 +14,10 @@ export default class Image {
             fd.append('image[' + k.name + ']', k)
         }
 
-        axios.post(URL + 'save', fd).
+        axios.post(config.url + 'image/save', fd).
             then(res => {
-                this.response = res.data.response
+                object.image = res.data.response
             }).
             catch(err => console.log(err))
-    }
-
-    getResponse () {
-        return this.response
     }
 }
