@@ -105,7 +105,7 @@
                     this.bestAnime = response.data.response
                 }).catch(error => console.log(error))
             },
-            likePost(id) {
+            async likePost(id) {
                 let liked = await like(id, 'anime', this.user.id)
 
                 if ( true == liked ) {

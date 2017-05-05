@@ -32,6 +32,16 @@ class UserModel
     }
 
     /**
+     * @param int $skip
+     * @param int $take
+     * @return mixed
+     */
+    public function getUsers(int $skip, int $take) 
+    {
+        return $this->repository->getUsers($skip, $take);
+    }
+
+    /**
      * @param array $data
      * @return bool
      */

@@ -1,9 +1,9 @@
 import axios from 'axios'
-import config from '../../config'
+import config from '../config'
 import Token from './token'
 let Promise = require('bluebird')
 
-export default like(post_id, user_id, service) {
+export default function like(post_id, user_id, service) {
 	return new Promise(
 		function(resolve, reject) {
 			let token = new Token
@@ -39,5 +39,5 @@ export default like(post_id, user_id, service) {
 			            }
 			})
 		}
-	}
+	)
 }
