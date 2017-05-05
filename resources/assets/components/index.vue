@@ -53,17 +53,67 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import store from '../store/store';
+    import axios from 'axios'
+    import config from '../config'
+    import like from '../modules/likes'
+    import {mapState} from 'vuex'
+    let skip, offset = 0
+    let take = 10
 
     export default {
         data() {
             return {
                 user: false,
+                anime: [],
                 bestAnime: [],
-                skip: 0,
-                offset: 0,
-                sortType: 1,
+                sortType: 1
+            }
+        },
+        computed: {
+            ...mapState(
+                {
+                    user: state => state.userStore.user
+                }
+            ),
+            sorted: ({anime, sortType}) => !!anime ? anime.sort(
+                    (a, b) => sortType == 1 ? new Date(a.created_at.date) : new Date(b.created_at.date)
+                ) : null
+        },
+        created() {
+            this.getAnime()
+            this.getBestAnime()
+        },
+        methods: {
+            getAnime() {
+                axios.get(config.url + 'anime/get', {
+                    params: {
+                        skip: skip,
+                        take: take
+                    }
+                }).then(response => {
+                    offset++
+                    skip = offset * 10
+                    this.anime = response.data.response
+                }).catch(error => console.log(error))
+            },
+            getBestAnime() {
+                axios.get(config.url + 'anime/best', {
+                    params: {
+                        take: 4
+                    }
+                }).then(response => {
+                    this.bestAnime = response.data.response
+                }).catch(error => console.log(error))
+            },
+            likePost(id) {
+                let liked = await like(id, 'anime', this.user.id)
+
+                if ( true == liked ) {
+                    alertify.notify('Вы успешно оценили запись', 'success', 2)
+                    for ( let k of this.anime ) {
+                        this.anime[k].anime_id == id ? this.anime[k].likes++ : ''
+                    }
+                }
             }
         }
     }

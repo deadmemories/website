@@ -30,17 +30,35 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    import axios from 'axios'
+    import config from '../../config'
+    let skip = 0
+    let take = 3
 
     export default {
         data() {
             return {
-                lastUsers: [],
-                lastThemes: [],
-                lastManga: []
+                users: [],
+                themes: [],
+                manga: []
             }
         },
-        mounted() {
+        created() {
+            // this.getManga()
+            // this.getThemes()
+            this.getUsers()
+        },
+        methods: {
+            getUsers() {
+                axios.get(config.url + 'users/get', {
+                    params: {
+                        skip: skip,
+                        take: take
+                    }
+                }).then(response => {
+                    this.users = response.data.response
+                }).catch(error => console.log(error))
+            }
         }
     }
 </script>
