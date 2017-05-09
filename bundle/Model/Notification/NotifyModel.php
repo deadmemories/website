@@ -1,21 +1,21 @@
 <?php
 
-namespace Bundle\Model\User;
+namespace Bundle\Model\Notification;
 
-use Bundle\Repository\User\UserRepositoryInterface;
+use Bundle\Repository\Notification\NotifyInterface;
 
-class UserModel
+class NotifyModel
 {
     /**
-     * @var UserRepositoryInterface
+     * @var NotifyInterface
      */
     protected $repository;
 
     /**
-     * UserModel constructor.
-     * @param UserRepositoryInterface $repository
+     * NotifyModel constructor.
+     * @param NotifyInterface $repository
      */
-    public function __construct(UserRepositoryInterface $repository)
+    public function __construct(NotifyInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -25,9 +25,9 @@ class UserModel
      * @param string $column
      * @return mixed
      */
-    public function getUser($data, string $column = 'id')
+    public function getRow($data, string $column = 'id')
     {
-        return $this->repository->getUser($data, $column);
+        return $this->repository->getRow($data, $column);
     }
 
     /**
@@ -35,9 +35,9 @@ class UserModel
      * @param int $take
      * @return mixed
      */
-    public function getUsers(int $skip, int $take) 
+    public function getAll(int $skip, int $take)
     {
-        return $this->repository->getUsers($skip, $take);
+        return $this->repository->getAll($skip, $take);
     }
 
     /**
